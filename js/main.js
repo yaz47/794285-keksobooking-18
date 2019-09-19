@@ -40,7 +40,7 @@ var getPlacesDataMock = function () {
         photos: getRandomArrFromParent(PLACE_PHOTOS)
       },
       location: {
-        x: 600,
+        x: getRandomInt(10, 90),
         y: getRandomInt(130, 630)
       }
     });
@@ -48,4 +48,33 @@ var getPlacesDataMock = function () {
   return result;
 };
 
-var placesData = getPlacesDataMock();
+var mapElem = document.querySelector('.map');
+mapElem.classList.remove('map--faded');
+
+var pinTemplate = document.querySelector('#pin')
+    .content
+    .querySelector('.map__pin');
+
+var renderPinFromTemplate = function (data) {
+  var pinElem = pinTemplate.cloneNode(true);
+
+  pinElem.style.left = data.location.x + '%';
+  pinElem.style.top = data.location.y + 'px';
+
+  var pinImgElem = pinElem.querySelector('img');
+  pinImgElem.src = data.author.avatar;
+  pinImgElem.alt = data.offer.title;
+
+  return pinElem;
+};
+
+var renderPins = function (data) {
+  var result = document.createDocumentFragment();
+  for (var i = 0; i < data.length; i++) {
+    result.appendChild(renderPinFromTemplate(data[i]));
+  }
+  return result;
+};
+
+var pinContainerElem = mapElem.querySelector('.map__pins');
+pinContainerElem.appendChild(renderPins(getPlacesDataMock()));
