@@ -38,7 +38,7 @@ var getPlacesDataMock = function () {
         checkin: '1' + getRandomInt(2, 4) + ':00',
         checkout: '1' + getRandomInt(2, 4) + ':00',
         features: getRandomArrFromParent(PLACE_FEATURES),
-        description: LOREM.slice(0, 150),
+        description: LOREM.slice(0, getRandomInt(100, 200)),
         photos: getRandomArrFromParent(PLACE_PHOTOS)
       },
       location: {
@@ -50,12 +50,17 @@ var getPlacesDataMock = function () {
   return result;
 };
 
+var dataMock = getPlacesDataMock();
+
 var mapElem = document.querySelector('.map');
 activateElem(mapElem, 'map--faded');
 
 var pinTemplate = document.querySelector('#pin')
     .content
     .querySelector('.map__pin');
+var cardTemplate = document.querySelector('#card')
+    .content
+    .querySelector('.map__card');
 
 var renderPinFromTemplate = function (data) {
   var pinElem = pinTemplate.cloneNode(true);
@@ -78,5 +83,59 @@ var renderPins = function (data) {
   return result;
 };
 
+var getFeaturesMarkUp = function (features) {
+  var html = '';
+  features.forEach(function (val) {
+    html += '<li class="popup__feature popup__feature--' + val + '"></li>';
+  });
+  return html;
+};
+
+var getPhotosMarkUp = function (photos) {
+  var html = '';
+  photos.forEach(function (val) {
+    html += '<img src="' + val + '" class="popup__photo" width="45" height="40" alt="Фотография жилья">';
+  });
+  return html;
+};
+
+var renderCardFromTemplate = function (data) {
+  var cardElem = cardTemplate.cloneNode(true);
+
+  cardElem.querySelector('.popup__title').textContent = data.offer.title;
+  cardElem.querySelector('.popup__text--address').textContent = data.offer.address;
+  cardElem.querySelector('.popup__text--price').innerHTML = data.offer.price + '&#x20bd;<span>/ночь</span>';
+
+  switch (data.offer.type) {
+    case 'flat':
+      cardElem.querySelector('.popup__type').textContent = 'Квартира';
+      break;
+    case 'bungalo':
+      cardElem.querySelector('.popup__type').textContent = 'Бунгало';
+      break;
+    case 'house':
+      cardElem.querySelector('.popup__type').textContent = 'Дом';
+      break;
+    case 'palace':
+      cardElem.querySelector('.popup__type').textContent = 'Дворец';
+      break;
+  }
+
+  cardElem.querySelector('.popup__text--capacity')
+    .textContent = data.offer.rooms + ' комнат' + (data.offer.rooms === 1 ? 'а' : 'ы')
+      + ' для ' + data.offer.guests + ' гост' + (data.offer.guests === 1 ? 'я' : 'ей');
+  cardElem.querySelector('.popup__text--time')
+    .textContent = 'Заезд после ' + data.offer.checkin + ', выезд до ' + data.offer.checkout;
+  cardElem.querySelector('.popup__features').innerHTML = getFeaturesMarkUp(data.offer.features);
+  cardElem.querySelector('.popup__description').textContent = data.offer.description;
+  cardElem.querySelector('.popup__photos').innerHTML = getPhotosMarkUp(data.offer.photos);
+  cardElem.querySelector('.popup__avatar').src = data.author.avatar;
+
+  return cardElem;
+};
+
 var pinContainerElem = mapElem.querySelector('.map__pins');
-pinContainerElem.appendChild(renderPins(getPlacesDataMock()));
+pinContainerElem.appendChild(renderPins(dataMock));
+
+var filterContainerElem = mapElem.querySelector('.map__filters-container');
+mapElem.insertBefore(renderCardFromTemplate(dataMock[0]), filterContainerElem);
