@@ -17,8 +17,8 @@ var getRandomArrFromParent = function (parent) {
   });
 };
 
-var activateElem = function (elem, class) {
-  elem.classList.remove(class);
+var activateElem = function (elem, className) {
+  elem.classList.remove(className);
 };
 
 var getPlacesDataMock = function () {
