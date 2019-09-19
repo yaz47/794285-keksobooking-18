@@ -8,8 +8,6 @@ var PLACE_FEATURES = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'co
 var PLACE_PHOTOS = ['http://o0.github.io/assets/images/tokyo/hotel1.jpg', 'http://o0.github.io/assets/images/tokyo/hotel2.jpg', 'http://o0.github.io/assets/images/tokyo/hotel3.jpg'];
 
 var getRandomInt = function (min, max) {
-  min = Math.ceil(min);
-  max = Math.floor(max);
   return Math.floor(Math.random() * (max - min + 1)) + min;
 };
 
@@ -17,6 +15,10 @@ var getRandomArrFromParent = function (parent) {
   return parent.filter(function () {
     return getRandomInt(0, 1);
   });
+};
+
+var activateElem = function (elem, class) {
+  elem.classList.remove(class);
 };
 
 var getPlacesDataMock = function () {
@@ -49,7 +51,7 @@ var getPlacesDataMock = function () {
 };
 
 var mapElem = document.querySelector('.map');
-mapElem.classList.remove('map--faded');
+activateElem(mapElem, 'map--faded');
 
 var pinTemplate = document.querySelector('#pin')
     .content
