@@ -2,8 +2,24 @@
 
 var LOREM = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin lacus nulla, faucibus nec aliquam id, aliquet ut velit. Fusce porta non lorem nec vulputate. Donec nec imperdiet elit. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Morbi tincidunt tempor ultrices. Mauris consequat felis ullamcorper, aliquet diam sed, accumsan neque. Curabitur tempor lorem id ante viverra venenatis. Vivamus magna purus, euismod at sem ut, pulvinar accumsan ipsum. Maecenas accumsan justo erat, sed fermentum ligula aliquet in. Nullam et congue dolor, nec volutpat diam. Nulla vel odio nec sapien pellentesque tincidunt ac vitae risus.';
 var PLACE_AMOUNT = 8;
-var PLACE_TYPE = ['palace', 'flat', 'house', 'bungalo'];
-var PLACE_ROOMS = [1, 2, 3, 100];
+var PLACE_TYPE = {
+  palace: 'Дворец',
+  flat: 'Квартира',
+  house: 'Дом',
+  bungalo: 'Бунгало'
+};
+var PLACE_ROOMS = {
+  '1': '1 комната',
+  '2': '2 комнаты',
+  '3': '3 комнаты',
+  '100': '100 комнат'
+};
+var PLACE_GUESTS = {
+  '0': 'не для гостей',
+  '1': 'для 1 гостя',
+  '2': 'для 2 гостей',
+  '3': 'для 3 гостей'
+};
 var PLACE_FEATURES = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'];
 var PLACE_PHOTOS = ['http://o0.github.io/assets/images/tokyo/hotel1.jpg', 'http://o0.github.io/assets/images/tokyo/hotel2.jpg', 'http://o0.github.io/assets/images/tokyo/hotel3.jpg'];
 
@@ -32,9 +48,9 @@ var getPlacesDataMock = function () {
         title: LOREM.slice(0, getRandomInt(6, 40)),
         address: '600, 350',
         price: getRandomInt(5000, 100000),
-        type: PLACE_TYPE[getRandomInt(0, 3)],
-        rooms: PLACE_ROOMS[getRandomInt(0, 3)],
-        guests: getRandomInt(0, 3),
+        type: Object.keys(PLACE_TYPE)[getRandomInt(0, 3)],
+        rooms: +Object.keys(PLACE_ROOMS)[getRandomInt(0, 3)],
+        guests: +Object.keys(PLACE_GUESTS)[getRandomInt(0, 3)],
         checkin: '1' + getRandomInt(2, 4) + ':00',
         checkout: '1' + getRandomInt(2, 4) + ':00',
         features: getRandomArrFromParent(PLACE_FEATURES),
@@ -105,25 +121,9 @@ var renderCardFromTemplate = function (data) {
   cardElem.querySelector('.popup__title').textContent = data.offer.title;
   cardElem.querySelector('.popup__text--address').textContent = data.offer.address;
   cardElem.querySelector('.popup__text--price').innerHTML = data.offer.price + '&#x20bd;<span>/ночь</span>';
-
-  switch (data.offer.type) {
-    case 'flat':
-      cardElem.querySelector('.popup__type').textContent = 'Квартира';
-      break;
-    case 'bungalo':
-      cardElem.querySelector('.popup__type').textContent = 'Бунгало';
-      break;
-    case 'house':
-      cardElem.querySelector('.popup__type').textContent = 'Дом';
-      break;
-    case 'palace':
-      cardElem.querySelector('.popup__type').textContent = 'Дворец';
-      break;
-  }
-
+  cardElem.querySelector('.popup__type').textContent = PLACE_TYPE[data.offer.type];
   cardElem.querySelector('.popup__text--capacity')
-    .textContent = data.offer.rooms + ' комнат' + (data.offer.rooms === 1 ? 'а' : 'ы')
-      + ' для ' + data.offer.guests + ' гост' + (data.offer.guests === 1 ? 'я' : 'ей');
+    .textContent = PLACE_ROOMS[data.offer.rooms] + ' ' + PLACE_GUESTS[data.offer.guests];
   cardElem.querySelector('.popup__text--time')
     .textContent = 'Заезд после ' + data.offer.checkin + ', выезд до ' + data.offer.checkout;
   cardElem.querySelector('.popup__features').innerHTML = getFeaturesMarkUp(data.offer.features);
