@@ -167,6 +167,7 @@ var activatePage = function () {
   filterFromElem.querySelectorAll('fieldset, input, select').forEach(function (elem) {
     elem.disabled = false;
   });
+  selectRoomsElem.setCustomValidity(validateGuestsAndRooms());
   isPageActive = true;
 };
 
