@@ -22,6 +22,24 @@
 // };
 // var PLACE_FEATURES = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'];
 // var PLACE_PHOTOS = ['http://o0.github.io/assets/images/tokyo/hotel1.jpg', 'http://o0.github.io/assets/images/tokyo/hotel2.jpg', 'http://o0.github.io/assets/images/tokyo/hotel3.jpg'];
+var ROOMS_GUESTS_CONFIG = {
+  '1': {
+    val: ['1'],
+    errMsg: '1 комната только для 1 гостя'
+  },
+  '2': {
+    val: ['1', '2'],
+    errMsg: '2 комнаты только для 1 или 2 гостей'
+  },
+  '3': {
+    val: ['1', '2', '3'],
+    errMsg: '3 комнаты только для 1, 2 или 3 гостей'
+  },
+  '100': {
+    val: ['0'],
+    errMsg: '100 комнат не для гостей'
+  }
+};
 var PIN_Y_POINTER = 16;
 // var ESC_KEYCODE = 27;
 var ENTER_KEYCODE = 13;
@@ -203,27 +221,8 @@ var validateGuestsAndRooms = function () {
   var rooms = selectRoomsElem.value;
   var guests = selectGuestsElem.value;
 
-  switch (rooms) {
-    case '1':
-      if (guests === '1') {
-        return '';
-      }
-      return '1 комната только для 1 гостя';
-    case '2':
-      if (guests === '1' || guests === '2') {
-        return '';
-      }
-      return '2 комнаты только для 1 или 2 гостей';
-    case '3':
-      if (guests === '1' || guests === '2' || guests === '3') {
-        return '';
-      }
-      return '3 комнаты только для 1, 2 или 3 гостей';
-    case '100':
-      if (guests === '0') {
-        return '';
-      }
-      return '100 комнат не для гостей';
+  if (ROOMS_GUESTS_CONFIG[rooms].val.indexOf(guests) === -1) {
+    return ROOMS_GUESTS_CONFIG[rooms].errMsg;
   }
 
   return '';
