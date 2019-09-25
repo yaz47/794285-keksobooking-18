@@ -22,6 +22,11 @@ var PLACE_GUESTS = {
 };
 var PLACE_FEATURES = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'];
 var PLACE_PHOTOS = ['http://o0.github.io/assets/images/tokyo/hotel1.jpg', 'http://o0.github.io/assets/images/tokyo/hotel2.jpg', 'http://o0.github.io/assets/images/tokyo/hotel3.jpg'];
+var PIN_Y_POINTER = 16;
+var ESC_KEYCODE = 27;
+var ENTER_KEYCODE = 13;
+
+var isPageActive = false;
 
 var getRandomInt = function (min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
@@ -69,7 +74,12 @@ var getPlacesDataMock = function () {
 var dataMock = getPlacesDataMock();
 
 var mapElem = document.querySelector('.map');
-activateElem(mapElem, 'map--faded');
+var pinContainerElem = mapElem.querySelector('.map__pins');
+var pinMainElem = pinContainerElem.querySelector('.map__pin--main');
+var filterContainerElem = mapElem.querySelector('.map__filters-container');
+var adFormElem = document.querySelector('.ad-form');
+var inputAddressElem = document.querySelector('#address');
+var filterFromElem = mapElem.querySelector('.map__filters');
 
 var pinTemplate = document.querySelector('#pin')
     .content
@@ -134,8 +144,50 @@ var renderCardFromTemplate = function (data) {
   return cardElem;
 };
 
-var pinContainerElem = mapElem.querySelector('.map__pins');
-pinContainerElem.appendChild(renderPins(dataMock));
+var deactivatePage = function () {
+  mapElem.classList.add('map--faded');
+  adFormElem.classList.add('ad-form--disabled');
+  adFormElem.querySelectorAll('fieldset, input, select').forEach(function (elem) {
+    elem.disabled = true;
+  });
+  filterFromElem.querySelectorAll('fieldset, input, select').forEach(function (elem) {
+    elem.disabled = true;
+  });
+  isPageActive = false;
+};
 
-var filterContainerElem = mapElem.querySelector('.map__filters-container');
-mapElem.insertBefore(renderCardFromTemplate(dataMock[0]), filterContainerElem);
+var activatePage = function () {
+  mapElem.classList.remove('map--faded');
+  adFormElem.classList.remove('ad-form--disabled');
+  adFormElem.querySelectorAll('fieldset, input, select').forEach(function (elem) {
+    elem.disabled = false;
+  });
+  filterFromElem.querySelectorAll('fieldset, input, select').forEach(function (elem) {
+    elem.disabled = false;
+  });
+  isPageActive = true;
+};
+
+var getAddressCoords = function () {
+  var xPointer = pinMainElem.offsetWidth / 2;
+  var yPointer = isPageActive ? pinMainElem.offsetHeight + PIN_Y_POINTER
+    : pinMainElem.offsetHeight / 2;
+  var xCoord = Math.round(pinMainElem.offsetLeft + xPointer);
+  var yCoord = Math.round(pinMainElem.offsetTop + yPointer);
+  inputAddressElem.value = xCoord + ', ' + yCoord;
+};
+
+pinMainElem.addEventListener('mousedown', function () {
+  activatePage();
+  getAddressCoords();
+});
+
+pinMainElem.addEventListener('keydown', function (evt) {
+  if (evt.keyCode === ENTER_KEYCODE) {
+    activatePage();
+    getAddressCoords();
+  }
+});
+
+deactivatePage();
+getAddressCoords();
