@@ -78,7 +78,9 @@ var pinContainerElem = mapElem.querySelector('.map__pins');
 var pinMainElem = pinContainerElem.querySelector('.map__pin--main');
 var filterContainerElem = mapElem.querySelector('.map__filters-container');
 var adFormElem = document.querySelector('.ad-form');
-var inputAddressElem = document.querySelector('#address');
+var inputAddressElem = adFormElem.querySelector('#address');
+var selectRoomsElem = adFormElem.querySelector('#room_number');
+var selectGuestsElem = adFormElem.querySelector('#capacity');
 var filterFromElem = mapElem.querySelector('.map__filters');
 
 var pinTemplate = document.querySelector('#pin')
@@ -189,5 +191,46 @@ pinMainElem.addEventListener('keydown', function (evt) {
   }
 });
 
-deactivatePage();
-getAddressCoords();
+var initPage = function () {
+  deactivatePage();
+  getAddressCoords();
+};
+
+initPage();
+
+var validateGuestsAndRooms = function () {
+  var rooms = selectRoomsElem.value;
+  var guests = selectGuestsElem.value;
+
+  switch (rooms) {
+    case '1':
+      if (guests === '1') {
+        return '';
+      }
+      return '1 комната только для 1 гостя';
+    case '2':
+      if (guests === '1' || guests === '2') {
+        return '';
+      }
+      return '2 комнаты только для 1 или 2 гостей';
+    case '3':
+      if (guests === '1' || guests === '2' || guests === '3') {
+        return '';
+      }
+      return '3 комнаты только для 1, 2 или 3 гостей';
+    case '100':
+      if (guests === '0') {
+        return '';
+      }
+      return '100 комнат не для гостей';
+  }
+
+  return '';
+};
+
+var onRoomsOrGuestsInput = function (evt) {
+  evt.target.setCustomValidity(validateGuestsAndRooms());
+};
+
+selectRoomsElem.addEventListener('input', onRoomsOrGuestsInput);
+selectGuestsElem.addEventListener('input', onRoomsOrGuestsInput);
