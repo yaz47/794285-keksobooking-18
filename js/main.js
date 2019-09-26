@@ -40,6 +40,12 @@ var ROOMS_GUESTS_CONFIG = {
     errMsg: '100 комнат не для гостей'
   }
 };
+var TYPE_PRICE_CONFIG = {
+  palace: 10000,
+  flat: 1000,
+  house: 5000,
+  bungalo: 0
+};
 var PIN_Y_POINTER = 16;
 
 var TITLE_MIN_LENGTH = 30;
@@ -103,6 +109,7 @@ var filterContainerElem = mapElem.querySelector('.map__filters-container');
 var adFormElem = document.querySelector('.ad-form');
 var inputTitleElem = adFormElem.querySelector('#title');
 var inputPriceElem = adFormElem.querySelector('#price');
+var selectTypeElem = adFormElem.querySelector('#type');
 var inputAddressElem = adFormElem.querySelector('#address');
 var selectRoomsElem = adFormElem.querySelector('#room_number');
 var selectGuestsElem = adFormElem.querySelector('#capacity');
@@ -208,6 +215,7 @@ var activatePage = function () {
   });
   validateTitleInput();
   validatePriceInput();
+  validateTypeInput();
   selectRoomsElem.setCustomValidity(validateGuestsAndRooms());
   pinContainerElem.appendChild(renderPins(dataMock));
   isPageActive = true;
@@ -265,11 +273,21 @@ var validatePriceInput = function () {
   inputPriceElem.max = PRICE_MAX_VALUE;
 };
 
+var validateTypeInput = function () {
+  inputPriceElem.min = TYPE_PRICE_CONFIG[selectTypeElem.value];
+  inputPriceElem.placeholder = TYPE_PRICE_CONFIG[selectTypeElem.value];
+};
+
+var onTypeInput = function () {
+  validateTypeInput();
+};
+
 var onRoomsOrGuestsInput = function () {
   selectRoomsElem.setCustomValidity(validateGuestsAndRooms());
   selectGuestsElem.setCustomValidity(validateGuestsAndRooms());
 };
 
+selectTypeElem.addEventListener('input', onTypeInput);
 selectRoomsElem.addEventListener('input', onRoomsOrGuestsInput);
 selectGuestsElem.addEventListener('input', onRoomsOrGuestsInput);
 
