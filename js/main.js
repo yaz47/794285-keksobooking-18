@@ -44,6 +44,7 @@ var PIN_Y_POINTER = 16;
 
 var TITLE_MIN_LENGTH = 30;
 var TITLE_MAX_LENGTH = 100;
+var PRICE_MAX_VALUE = 1000000;
 
 var ESC_KEYCODE = 27;
 var ENTER_KEYCODE = 13;
@@ -101,6 +102,7 @@ var pinMainElem = pinContainerElem.querySelector('.map__pin--main');
 var filterContainerElem = mapElem.querySelector('.map__filters-container');
 var adFormElem = document.querySelector('.ad-form');
 var inputTitleElem = adFormElem.querySelector('#title');
+var inputPriceElem = adFormElem.querySelector('#price');
 var inputAddressElem = adFormElem.querySelector('#address');
 var selectRoomsElem = adFormElem.querySelector('#room_number');
 var selectGuestsElem = adFormElem.querySelector('#capacity');
@@ -205,6 +207,7 @@ var activatePage = function () {
     elem.disabled = false;
   });
   validateTitleInput();
+  validatePriceInput();
   selectRoomsElem.setCustomValidity(validateGuestsAndRooms());
   pinContainerElem.appendChild(renderPins(dataMock));
   isPageActive = true;
@@ -251,8 +254,15 @@ var validateGuestsAndRooms = function () {
 
 var validateTitleInput = function () {
   inputTitleElem.required = true;
+  inputTitleElem.type = 'text';
   inputTitleElem.minLength = TITLE_MIN_LENGTH;
   inputTitleElem.maxLength = TITLE_MAX_LENGTH;
+};
+
+var validatePriceInput = function () {
+  inputPriceElem.required = true;
+  inputPriceElem.type = 'number';
+  inputPriceElem.max = PRICE_MAX_VALUE;
 };
 
 var onRoomsOrGuestsInput = function () {
