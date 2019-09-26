@@ -216,6 +216,7 @@ var activatePage = function () {
   validateTitleInput();
   validatePriceInput();
   validateTypeInput();
+  validateAddressInput();
   selectRoomsElem.setCustomValidity(validateGuestsAndRooms());
   pinContainerElem.appendChild(renderPins(dataMock));
   isPageActive = true;
@@ -276,6 +277,10 @@ var validatePriceInput = function () {
 var validateTypeInput = function () {
   inputPriceElem.min = TYPE_PRICE_CONFIG[selectTypeElem.value];
   inputPriceElem.placeholder = TYPE_PRICE_CONFIG[selectTypeElem.value];
+};
+
+var validateAddressInput = function () {
+  inputAddressElem.readOnly = true;
 };
 
 var onTypeInput = function () {
