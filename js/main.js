@@ -108,10 +108,12 @@ var pinMainElem = pinContainerElem.querySelector('.map__pin--main');
 var filterContainerElem = mapElem.querySelector('.map__filters-container');
 var adFormElem = document.querySelector('.ad-form');
 var inputTitleElem = adFormElem.querySelector('#title');
+var inputAddressElem = adFormElem.querySelector('#address');
 var inputPriceElem = adFormElem.querySelector('#price');
 var selectTypeElem = adFormElem.querySelector('#type');
-var inputAddressElem = adFormElem.querySelector('#address');
 var selectRoomsElem = adFormElem.querySelector('#room_number');
+var selectTimeInElem = adFormElem.querySelector('#timein');
+var selectTimeOutElem = adFormElem.querySelector('#timeout');
 var selectGuestsElem = adFormElem.querySelector('#capacity');
 var filterFromElem = mapElem.querySelector('.map__filters');
 
@@ -217,6 +219,7 @@ var activatePage = function () {
   validatePriceInput();
   validateTypeInput();
   validateAddressInput();
+  validateTimeInput();
   selectRoomsElem.setCustomValidity(validateGuestsAndRooms());
   pinContainerElem.appendChild(renderPins(dataMock));
   isPageActive = true;
@@ -283,8 +286,20 @@ var validateAddressInput = function () {
   inputAddressElem.readOnly = true;
 };
 
+var validateTimeInput = function () {
+  selectTimeInElem.value = selectTimeOutElem.value;
+};
+
 var onTypeInput = function () {
   validateTypeInput();
+};
+
+var onTimeInInput = function () {
+  selectTimeOutElem.value = selectTimeInElem.value;
+};
+
+var onTimeOutInput = function () {
+  selectTimeInElem.value = selectTimeOutElem.value;
 };
 
 var onRoomsOrGuestsInput = function () {
@@ -293,6 +308,8 @@ var onRoomsOrGuestsInput = function () {
 };
 
 selectTypeElem.addEventListener('input', onTypeInput);
+selectTimeInElem.addEventListener('input', onTimeInInput);
+selectTimeOutElem.addEventListener('input', onTimeOutInput);
 selectRoomsElem.addEventListener('input', onRoomsOrGuestsInput);
 selectGuestsElem.addEventListener('input', onRoomsOrGuestsInput);
 
