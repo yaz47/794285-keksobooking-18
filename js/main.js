@@ -243,8 +243,9 @@ var validateGuestsAndRooms = function () {
   return '';
 };
 
-var onRoomsOrGuestsInput = function (evt) {
-  evt.target.setCustomValidity(validateGuestsAndRooms());
+var onRoomsOrGuestsInput = function () {
+  selectRoomsElem.setCustomValidity(validateGuestsAndRooms());
+  selectGuestsElem.setCustomValidity(validateGuestsAndRooms());
 };
 
 selectRoomsElem.addEventListener('input', onRoomsOrGuestsInput);
