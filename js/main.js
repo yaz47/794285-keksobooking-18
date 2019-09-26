@@ -41,6 +41,10 @@ var ROOMS_GUESTS_CONFIG = {
   }
 };
 var PIN_Y_POINTER = 16;
+
+var TITLE_MIN_LENGTH = 30;
+var TITLE_MAX_LENGTH = 100;
+
 var ESC_KEYCODE = 27;
 var ENTER_KEYCODE = 13;
 
@@ -96,6 +100,7 @@ var pinContainerElem = mapElem.querySelector('.map__pins');
 var pinMainElem = pinContainerElem.querySelector('.map__pin--main');
 var filterContainerElem = mapElem.querySelector('.map__filters-container');
 var adFormElem = document.querySelector('.ad-form');
+var inputTitleElem = adFormElem.querySelector('#title');
 var inputAddressElem = adFormElem.querySelector('#address');
 var selectRoomsElem = adFormElem.querySelector('#room_number');
 var selectGuestsElem = adFormElem.querySelector('#capacity');
@@ -199,6 +204,7 @@ var activatePage = function () {
   filterFromElem.querySelectorAll('fieldset, input, select').forEach(function (elem) {
     elem.disabled = false;
   });
+  validateTitleInput();
   selectRoomsElem.setCustomValidity(validateGuestsAndRooms());
   pinContainerElem.appendChild(renderPins(dataMock));
   isPageActive = true;
@@ -241,6 +247,12 @@ var validateGuestsAndRooms = function () {
   }
 
   return '';
+};
+
+var validateTitleInput = function () {
+  inputTitleElem.required = true;
+  inputTitleElem.minLength = TITLE_MIN_LENGTH;
+  inputTitleElem.maxLength = TITLE_MAX_LENGTH;
 };
 
 var onRoomsOrGuestsInput = function () {
