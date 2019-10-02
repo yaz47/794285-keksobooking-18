@@ -19,6 +19,14 @@
     isPageActive = false;
   };
 
+  var onPinsLoad = function (response) {
+    window.map.pinContainerElem.appendChild(window.renderPins(response));
+  };
+
+  var onPinsError = function (errorMsg) {
+    window.renderErrorMsg(errorMsg);
+  };
+
   var activatePage = function () {
     window.map.mapElem.classList.remove('map--faded');
     window.adForm.adFormElem.classList.remove('ad-form--disabled');
@@ -35,7 +43,7 @@
     window.adForm.validateTimeInput();
     window.adForm.selectRoomsElem.setCustomValidity(window.adForm.validateGuestsAndRooms());
     window.adForm.selectGuestsElem.setCustomValidity(window.adForm.validateGuestsAndRooms());
-    window.map.pinContainerElem.appendChild(window.renderPins(window.data.mock));
+    window.backend.load(onPinsLoad, onPinsError);
     isPageActive = true;
   };
 

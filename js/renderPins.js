@@ -8,7 +8,7 @@
   var renderPinFromTemplate = function (data) {
     var pinElem = pinTemplate.cloneNode(true);
 
-    pinElem.style.left = data.location.x + '%';
+    pinElem.style.left = data.location.x + 'px';
     pinElem.style.top = data.location.y + 'px';
 
     var pinImgElem = pinElem.querySelector('img');
