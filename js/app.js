@@ -43,7 +43,7 @@
     window.adForm.validateTimeInput();
     window.adForm.selectRoomsElem.setCustomValidity(window.adForm.validateGuestsAndRooms());
     window.adForm.selectGuestsElem.setCustomValidity(window.adForm.validateGuestsAndRooms());
-    window.backend.load(onPinsLoad, onPinsError);
+    window.backend.load(window.utils.URL.LOAD, onPinsLoad, onPinsError);
     isPageActive = true;
   };
 
