@@ -57,8 +57,8 @@
   };
 
   var getXCoord = function (x) {
-    var start = window.map.pinContainerElem.offsetLeft;
-    var end = window.map.pinContainerElem.offsetLeft + window.map.pinContainerElem.offsetWidth - window.map.pinMainElem.offsetWidth;
+    var start = window.map.pinContainerElem.offsetLeft - window.map.pinMainElem.offsetWidth / 2;
+    var end = window.map.pinContainerElem.offsetLeft + window.map.pinContainerElem.offsetWidth - window.map.pinMainElem.offsetWidth / 2;
 
     if (x < start) {
       return start;
