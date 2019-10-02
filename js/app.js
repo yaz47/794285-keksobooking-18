@@ -71,8 +71,8 @@
   };
 
   var getYCoord = function (y) {
-    var start = window.map.pinContainerElem.offsetTop + PIN_Y_MIN - window.map.pinMainElem.offsetHeight - PIN_Y_POINTER;
-    var end = window.map.pinContainerElem.offsetTop + PIN_Y_MAX - window.map.pinMainElem.offsetHeight - PIN_Y_POINTER;
+    var start = window.map.pinContainerElem.offsetTop + PIN_Y_MIN;
+    var end = window.map.pinContainerElem.offsetTop + PIN_Y_MAX;
 
     if (y < start) {
       return start;
