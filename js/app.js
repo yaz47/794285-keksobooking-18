@@ -18,16 +18,19 @@
     window.map.pinContainerElem.appendChild(window.renderPins(response));
   };
 
-  var onPinsError = function (errorMsg) {
-    window.renderErrorMsg(errorMsg);
-  };
-
   var activatePage = function () {
     window.map.activateMap();
     window.adForm.activateForm();
-    window.backend.load(window.utils.URL.LOAD, onPinsLoad, onPinsError);
+    window.backend.load(window.utils.URL.LOAD, onPinsLoad, window.utils.onError);
     isPageActive = true;
   };
+
+  window.adForm.adFormElem.addEventListener('submit', function (evt) {
+    evt.preventDefault();
+    window.backend.save(window.utils.URL.SAVE, new FormData(evt.target), function () {
+      deactivatePage();
+    }, window.utils.onError);
+  });
 
   var updateAddressCoords = function () {
     var xPointer = window.map.pinMainElem.offsetWidth / 2;
