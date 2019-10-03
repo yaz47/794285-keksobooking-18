@@ -29,6 +29,7 @@
     evt.preventDefault();
     window.backend.save(window.utils.URL.SAVE, new FormData(evt.target), function () {
       deactivatePage();
+      window.renderSuccessMsg();
     }, window.utils.onError);
   });
 

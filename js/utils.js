@@ -9,8 +9,8 @@
   };
 
   window.utils.URL = {
-    SAVE: 'dfgsdfgsdfgsdfg',
-    LOAD: 'sdfgsdfgsdfgdf'
+    SAVE: 'https://js.dump.academy/keksobooking',
+    LOAD: 'https://js.dump.academy/keksobooking/data'
   };
 
   window.utils.mainElem = document.querySelector('main');
