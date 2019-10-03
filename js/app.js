@@ -19,6 +19,14 @@
     isPageActive = false;
   };
 
+  var onPinsLoad = function (response) {
+    window.map.pinContainerElem.appendChild(window.renderPins(response));
+  };
+
+  var onPinsError = function (errorMsg) {
+    window.renderErrorMsg(errorMsg);
+  };
+
   var activatePage = function () {
     window.map.mapElem.classList.remove('map--faded');
     window.adForm.adFormElem.classList.remove('ad-form--disabled');
@@ -35,7 +43,7 @@
     window.adForm.validateTimeInput();
     window.adForm.selectRoomsElem.setCustomValidity(window.adForm.validateGuestsAndRooms());
     window.adForm.selectGuestsElem.setCustomValidity(window.adForm.validateGuestsAndRooms());
-    window.map.pinContainerElem.appendChild(window.renderPins(window.data.mock));
+    window.backend.load(window.utils.URL.LOAD, onPinsLoad, onPinsError);
     isPageActive = true;
   };
 
@@ -49,8 +57,8 @@
   };
 
   var getXCoord = function (x) {
-    var start = window.map.pinContainerElem.offsetLeft;
-    var end = window.map.pinContainerElem.offsetLeft + window.map.pinContainerElem.offsetWidth - window.map.pinMainElem.offsetWidth;
+    var start = window.map.pinContainerElem.offsetLeft - window.map.pinMainElem.offsetWidth / 2;
+    var end = window.map.pinContainerElem.offsetLeft + window.map.pinContainerElem.offsetWidth - window.map.pinMainElem.offsetWidth / 2;
 
     if (x < start) {
       return start;
