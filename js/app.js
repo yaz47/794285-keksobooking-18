@@ -8,14 +8,9 @@
   var isPageActive = false;
 
   var deactivatePage = function () {
-    window.map.mapElem.classList.add('map--faded');
-    window.adForm.adFormElem.classList.add('ad-form--disabled');
-    window.adForm.adFormElem.querySelectorAll('fieldset, input, select').forEach(function (elem) {
-      elem.disabled = true;
-    });
-    window.map.filterFormElem.querySelectorAll('fieldset, input, select').forEach(function (elem) {
-      elem.disabled = true;
-    });
+    window.map.deactivateMap();
+    window.adForm.deactivateForm();
+    updateAddressCoords();
     isPageActive = false;
   };
 
@@ -23,29 +18,20 @@
     window.map.pinContainerElem.appendChild(window.renderPins(response));
   };
 
-  var onPinsError = function (errorMsg) {
-    window.renderErrorMsg(errorMsg);
-  };
-
   var activatePage = function () {
-    window.map.mapElem.classList.remove('map--faded');
-    window.adForm.adFormElem.classList.remove('ad-form--disabled');
-    window.adForm.adFormElem.querySelectorAll('fieldset, input, select').forEach(function (elem) {
-      elem.disabled = false;
-    });
-    window.map.filterFormElem.querySelectorAll('fieldset, input, select').forEach(function (elem) {
-      elem.disabled = false;
-    });
-    window.adForm.validateTitleInput();
-    window.adForm.validateAddressInput();
-    window.adForm.validateTypeInput();
-    window.adForm.validatePriceInput();
-    window.adForm.validateTimeInput();
-    window.adForm.selectRoomsElem.setCustomValidity(window.adForm.validateGuestsAndRooms());
-    window.adForm.selectGuestsElem.setCustomValidity(window.adForm.validateGuestsAndRooms());
-    window.backend.load(window.utils.URL.LOAD, onPinsLoad, onPinsError);
+    window.map.activateMap();
+    window.adForm.activateForm();
+    window.backend.load(window.utils.URL.LOAD, onPinsLoad, window.utils.onError);
     isPageActive = true;
   };
+
+  window.adForm.adFormElem.addEventListener('submit', function (evt) {
+    evt.preventDefault();
+    window.backend.save(window.utils.URL.SAVE, new FormData(evt.target), function () {
+      deactivatePage();
+      window.renderSuccessMsg();
+    }, window.utils.onError);
+  });
 
   var updateAddressCoords = function () {
     var xPointer = window.map.pinMainElem.offsetWidth / 2;
@@ -148,7 +134,6 @@
 
   var initPage = function () {
     deactivatePage();
-    updateAddressCoords();
   };
 
   initPage();

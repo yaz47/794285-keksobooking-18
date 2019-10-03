@@ -9,10 +9,21 @@
     var errorElem = errorTemplate.cloneNode(true);
 
     errorElem.querySelector('.error__message').textContent = data;
-    errorElem.querySelector('.error__button').addEventListener('click', function () {
-      document.body.removeChild(errorElem);
+
+    var onEscPress = function (evt) {
+      if (evt.keyCode === window.utils.KEYCODES.ESC) {
+        window.utils.destroyMsg(errorElem);
+      }
+      document.removeEventListener('keydown', onEscPress);
+    };
+    document.addEventListener('keydown', onEscPress);
+
+    errorElem.addEventListener('click', function () {
+      window.utils.destroyMsg(errorElem);
+      document.removeEventListener('keydown', onEscPress);
     });
-    document.body.appendChild(errorElem);
+
+    window.utils.mainElem.appendChild(errorElem);
   };
 
   window.renderErrorMsg = renderErrorMsg;

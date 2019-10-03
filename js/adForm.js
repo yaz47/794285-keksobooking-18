@@ -82,6 +82,33 @@
     return '';
   };
 
+  var validateForm = function () {
+    validateTitleInput();
+    validateAddressInput();
+    validateTypeInput();
+    validatePriceInput();
+    validateTimeInput();
+    selectRoomsElem.setCustomValidity(window.adForm.validateGuestsAndRooms());
+    selectGuestsElem.setCustomValidity(window.adForm.validateGuestsAndRooms());
+  };
+
+  var activateForm = function () {
+    adFormElem.classList.remove('ad-form--disabled');
+    adFormElem.querySelectorAll('fieldset, input, select').forEach(function (elem) {
+      elem.disabled = false;
+    });
+    validateForm();
+  };
+
+  var deactivateForm = function () {
+    adFormElem.reset();
+    validateForm();
+    adFormElem.classList.add('ad-form--disabled');
+    adFormElem.querySelectorAll('fieldset, input, select').forEach(function (elem) {
+      elem.disabled = true;
+    });
+  };
+
   var onTypeInput = function () {
     validateTypeInput();
   };
@@ -115,6 +142,8 @@
     validateTypeInput: validateTypeInput,
     validatePriceInput: validatePriceInput,
     validateTimeInput: validateTimeInput,
-    validateGuestsAndRooms: validateGuestsAndRooms
+    validateGuestsAndRooms: validateGuestsAndRooms,
+    activateForm: activateForm,
+    deactivateForm: deactivateForm
   };
 })();
