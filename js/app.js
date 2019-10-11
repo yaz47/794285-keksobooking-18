@@ -6,6 +6,9 @@
   var PIN_Y_MAX = 630;
 
   var isPageActive = false;
+  window.app = {
+    pinData: []
+  };
 
   var deactivatePage = function () {
     window.map.deactivateMap();
@@ -15,7 +18,8 @@
   };
 
   var onPinsLoad = function (response) {
-    window.map.pinContainerElem.appendChild(window.renderPins(response));
+    window.app.pinData = response;
+    window.map.pinContainerElem.appendChild(window.renderPins(window.app.pinData));
   };
 
   var activatePage = function () {
