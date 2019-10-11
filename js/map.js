@@ -168,6 +168,7 @@
 
   var refreshPins = window.utils.debounce(function () {
     destroyPins();
+    destroyCard();
     pinContainerElem.appendChild(window.renderPins(filterPinData(window.app.pinData)));
   });
 
