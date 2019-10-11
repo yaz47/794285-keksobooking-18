@@ -22,4 +22,20 @@
   window.utils.onError = function (errorMsg) {
     window.renderErrorMsg(errorMsg);
   };
+
+  window.utils.DEBOUNCE_INTERVAL = 500; // ms
+
+  window.utils.debounce = function (cb) {
+    var lastTimeout = null;
+
+    return function () {
+      var parameters = arguments;
+      if (lastTimeout) {
+        window.clearTimeout(lastTimeout);
+      }
+      lastTimeout = window.setTimeout(function () {
+        cb.apply(null, parameters);
+      }, window.utils.DEBOUNCE_INTERVAL);
+    };
+  };
 })();
