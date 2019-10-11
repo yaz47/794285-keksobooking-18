@@ -11,6 +11,7 @@
   var pinContainerElem = mapElem.querySelector('.map__pins');
   var pinMainElem = pinContainerElem.querySelector('.map__pin--main');
   var filterFormElem = mapElem.querySelector('.map__filters');
+  var filterTypeSelect = filterFormElem.querySelector('#housing-type');
 
   var destroyCard = function () {
     var card = mapElem.querySelector('.map__card.popup');
@@ -60,6 +61,21 @@
     if (evt.keyCode === window.utils.KEYCODES.ESC) {
       destroyCard();
     }
+  });
+
+  var filterByType = function (data) {
+    if (filterTypeSelect.value === 'any') {
+      return data;
+    }
+
+    return data.filter(function (elem) {
+      return elem.offer.type === filterTypeSelect.value;
+    });
+  };
+
+  filterTypeSelect.addEventListener('input', function () {
+    destroyPins();
+    pinContainerElem.appendChild(window.renderPins(filterByType(window.app.pinData)));
   });
 
   var activateMap = function () {
