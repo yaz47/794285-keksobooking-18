@@ -5,6 +5,7 @@
     WIDTH: 50,
     HEIGHT: 70
   };
+  var PINS_MAX = 5;
 
   var pinTemplate = document.querySelector('#pin')
   .content
@@ -25,7 +26,8 @@
 
   var renderPins = function (data) {
     var result = document.createDocumentFragment();
-    for (var i = 0; i < data.length; i++) {
+    var length = data.length < PINS_MAX ? data.length : PINS_MAX;
+    for (var i = 0; i < length; i++) {
       var pin = renderPinFromTemplate(data[i]);
       pin.dataset.number = i;
       result.appendChild(pin);
