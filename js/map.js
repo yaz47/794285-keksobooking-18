@@ -55,7 +55,13 @@
 
   var initCard = function (pin) {
     destroyCard();
-    mapElem.insertBefore(window.renderCardFromTemplate(window.data.mock[pin.dataset.number]), filterContainerElem);
+    var info;
+    try {
+      info = JSON.parse(pin.dataset.info);
+    } catch (err) {
+      info = {error: err.msg};
+    }
+    mapElem.insertBefore(window.renderCardFromTemplate(info), filterContainerElem);
   };
 
   pinContainerElem.addEventListener('click', function (evt) {
