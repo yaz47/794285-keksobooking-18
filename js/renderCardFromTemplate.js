@@ -18,10 +18,7 @@
   };
 
   var filterUndefProp = function (value) {
-    if (value === undefined) {
-      return '';
-    }
-    return value;
+    return value === undefined ? '' : value;
   };
 
   var cardTemplate = document.querySelector('#card')
@@ -34,9 +31,9 @@
     cardElem.querySelector('.popup__title').textContent = filterUndefProp(data.offer.title);
     cardElem.querySelector('.popup__text--address').textContent = filterUndefProp(data.offer.address);
     cardElem.querySelector('.popup__text--price').innerHTML = filterUndefProp(data.offer.price) + '&#x20bd;<span>/ночь</span>';
-    cardElem.querySelector('.popup__type').textContent = filterUndefProp(window.data.PLACE.TYPE[data.offer.type]);
+    cardElem.querySelector('.popup__type').textContent = filterUndefProp(window.utils.PLACE_CONFIG.Type[data.offer.type]);
     cardElem.querySelector('.popup__text--capacity')
-      .textContent = filterUndefProp(window.data.PLACE.ROOMS[data.offer.rooms]) + ' ' + filterUndefProp(window.data.PLACE.GUESTS[data.offer.guests]);
+      .textContent = filterUndefProp(window.utils.PLACE_CONFIG.Rooms[data.offer.rooms]) + ' ' + filterUndefProp(window.utils.PLACE_CONFIG.Guests[data.offer.guests]);
     cardElem.querySelector('.popup__text--time')
       .textContent = 'Заезд после ' + filterUndefProp(data.offer.checkin) + ', выезд до ' + filterUndefProp(data.offer.checkout);
     cardElem.querySelector('.popup__features').innerHTML = getFeaturesMarkUp(data.offer.features);
