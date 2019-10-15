@@ -10,19 +10,19 @@
     },
     ROOMS_GUESTS: {
       '1': {
-        val: ['1'],
+        values: ['1'],
         errMsg: '1 комната только для 1 гостя'
       },
       '2': {
-        val: ['1', '2'],
+        values: ['1', '2'],
         errMsg: '2 комнаты только для 1 или 2 гостей'
       },
       '3': {
-        val: ['1', '2', '3'],
+        values: ['1', '2', '3'],
         errMsg: '3 комнаты только для 1, 2 или 3 гостей'
       },
       '100': {
-        val: ['0'],
+        values: ['0'],
         errMsg: '100 комнат не для гостей'
       }
     }
@@ -77,7 +77,7 @@
     var rooms = selectRoomsElem.value;
     var guests = selectGuestsElem.value;
 
-    if (CONFIG.ROOMS_GUESTS[rooms].val.indexOf(guests) === -1) {
+    if (CONFIG.ROOMS_GUESTS[rooms].values.indexOf(guests) === -1) {
       return CONFIG.ROOMS_GUESTS[rooms].errMsg;
     }
 
