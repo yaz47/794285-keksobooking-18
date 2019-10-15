@@ -56,7 +56,7 @@
       '2': 'для 2 гостей',
       '3': 'для 3 гостей'
     }
-  }
+  };
 
   window.utils = {
     KEYCODES: KEYCODES,
