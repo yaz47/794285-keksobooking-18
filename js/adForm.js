@@ -173,11 +173,23 @@
 
   photoInput.addEventListener('change', onPhotoUpload);
 
-  var activateForm = function () {
-    adFormElem.classList.remove('ad-form--disabled');
-    adFormElem.querySelectorAll('fieldset, input, select').forEach(function (elem) {
+  var adFormControls = Array.from(adFormElem.querySelectorAll('fieldset, input, select'));
+
+  var activateAdFormControls = function () {
+    adFormControls.forEach(function (elem) {
       elem.disabled = false;
     });
+  };
+
+  var deactivateAdFormControls = function () {
+    adFormControls.forEach(function (elem) {
+      elem.disabled = true;
+    });
+  };
+
+  var activateForm = function () {
+    adFormElem.classList.remove('ad-form--disabled');
+    activateAdFormControls();
     validateForm();
   };
 
@@ -187,9 +199,7 @@
     adFormElem.reset();
     validateForm();
     adFormElem.classList.add('ad-form--disabled');
-    adFormElem.querySelectorAll('fieldset, input, select').forEach(function (elem) {
-      elem.disabled = true;
-    });
+    deactivateAdFormControls();
   };
 
   window.adForm = {
