@@ -38,7 +38,7 @@
     }, window.utils.onError);
   });
 
-  window.adForm.adFormElem.addEventListener('reset', function (evt) {
+  window.adForm.adFormResetElem.addEventListener('click', function (evt) {
     evt.preventDefault();
     deactivatePage();
   });

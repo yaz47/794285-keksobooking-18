@@ -38,6 +38,7 @@
   var AVATAR_DEFAULT = 'img/muffin-grey.svg';
 
   var adFormElem = document.querySelector('.ad-form');
+  var adFormResetElem = adFormElem.querySelector('.ad-form__reset');
   var inputTitleElem = adFormElem.querySelector('#title');
   var inputAddressElem = adFormElem.querySelector('#address');
   var selectTypeElem = adFormElem.querySelector('#type');
@@ -204,6 +205,7 @@
 
   window.adForm = {
     adFormElem: adFormElem,
+    adFormResetElem: adFormResetElem,
     inputAddressElem: inputAddressElem,
     selectRoomsElem: selectRoomsElem,
     selectGuestsElem: selectGuestsElem,
