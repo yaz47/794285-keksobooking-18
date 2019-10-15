@@ -37,6 +37,11 @@
     }, window.utils.onError);
   });
 
+  window.adForm.adFormElem.addEventListener('reset', function (evt) {
+    evt.preventDefault();
+    deactivatePage();
+  });
+
   var updateAddressCoords = function () {
     var xPointer = window.map.pinMainElem.offsetWidth / 2;
     var yPointer = isPageActive ? window.map.pinMainElem.offsetHeight + PIN_Y_POINTER
