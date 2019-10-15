@@ -111,11 +111,11 @@
     selectGuestsElem.setCustomValidity(validateGuestsAndRooms());
   };
 
-  selectTypeElem.addEventListener('input', onTypeInput);
-  selectTimeInElem.addEventListener('input', onTimeInInput);
-  selectTimeOutElem.addEventListener('input', onTimeOutInput);
-  selectRoomsElem.addEventListener('input', onRoomsOrGuestsInput);
-  selectGuestsElem.addEventListener('input', onRoomsOrGuestsInput);
+  selectTypeElem.addEventListener('change', onTypeInput);
+  selectTimeInElem.addEventListener('change', onTimeInInput);
+  selectTimeOutElem.addEventListener('change', onTimeOutInput);
+  selectRoomsElem.addEventListener('change', onRoomsOrGuestsInput);
+  selectGuestsElem.addEventListener('change', onRoomsOrGuestsInput);
 
   var isFileSupported = function (file) {
     return FILE_TYPES.some(function (ext) {

@@ -172,7 +172,7 @@
     pinContainerElem.appendChild(window.renderPins(filterPinData(window.app.pinData)));
   });
 
-  filterContainerElem.addEventListener('input', function (evt) {
+  filterContainerElem.addEventListener('change', function (evt) {
     if (evt.target.matches('select, input')) {
       refreshPins();
     }
