@@ -65,7 +65,7 @@
   };
 
   var destroyPins = function () {
-    pinContainerElem.querySelectorAll('.map__pin:not(.map__pin--main)').forEach(function (elem) {
+    Array.from(pinContainerElem.querySelectorAll('.map__pin:not(.map__pin--main)')).forEach(function (elem) {
       pinContainerElem.removeChild(elem);
     });
   };
@@ -205,11 +205,22 @@
     }
   });
 
-  var activateMap = function () {
-    mapElem.classList.remove('map--faded');
-    filterFormElem.querySelectorAll('fieldset, input, select').forEach(function (elem) {
+  var filterFormControls = Array.from(filterFormElem.querySelectorAll('fieldset, input, select'));
+
+  var activateFilterForm = function () {
+    filterFormControls.forEach(function (elem) {
       elem.disabled = false;
     });
+  };
+
+  var deactivateFilterForm = function () {
+    filterFormControls.forEach(function (elem) {
+      elem.disabled = true;
+    });
+  };
+
+  var activateMap = function () {
+    mapElem.classList.remove('map--faded');
   };
 
   var deactivateMap = function () {
@@ -218,9 +229,7 @@
     destroyPins();
     resetMainPin();
     filterFormElem.reset();
-    filterFormElem.querySelectorAll('fieldset, input, select').forEach(function (elem) {
-      elem.disabled = true;
-    });
+    deactivateFilterForm();
   };
 
   window.map = {
@@ -229,6 +238,7 @@
     filterFormElem: filterFormElem,
     pinContainerElem: pinContainerElem,
     activateMap: activateMap,
-    deactivateMap: deactivateMap
+    deactivateMap: deactivateMap,
+    activateFilterForm: activateFilterForm
   };
 })();

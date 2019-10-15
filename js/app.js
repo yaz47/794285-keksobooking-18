@@ -20,6 +20,7 @@
   var onPinsLoad = function (response) {
     window.app.pinData = response;
     window.map.pinContainerElem.appendChild(window.renderPins(window.app.pinData));
+    window.map.activateFilterForm();
   };
 
   var activatePage = function () {
