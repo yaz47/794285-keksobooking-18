@@ -136,6 +136,10 @@
     }
   });
 
+  window.addEventListener('beforeunload', function () {
+    deactivatePage();
+  });
+
   var initPage = function () {
     deactivatePage();
   };
