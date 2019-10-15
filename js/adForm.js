@@ -2,13 +2,13 @@
 
 (function () {
   var CONFIG = {
-    TYPE_PRICE: {
+    TypePrice: {
       palace: 10000,
       flat: 1000,
       house: 5000,
       bungalo: 0
     },
-    ROOMS_GUESTS: {
+    RoomsGuests: {
       '1': {
         values: ['1'],
         errMsg: '1 комната только для 1 гостя'
@@ -59,8 +59,8 @@
   };
 
   var validateTypeInput = function () {
-    inputPriceElem.min = CONFIG.TYPE_PRICE[selectTypeElem.value];
-    inputPriceElem.placeholder = CONFIG.TYPE_PRICE[selectTypeElem.value];
+    inputPriceElem.min = CONFIG.TypePrice[selectTypeElem.value];
+    inputPriceElem.placeholder = CONFIG.TypePrice[selectTypeElem.value];
   };
 
   var validatePriceInput = function () {
@@ -77,8 +77,8 @@
     var rooms = selectRoomsElem.value;
     var guests = selectGuestsElem.value;
 
-    if (CONFIG.ROOMS_GUESTS[rooms].values.indexOf(guests) === -1) {
-      return CONFIG.ROOMS_GUESTS[rooms].errMsg;
+    if (CONFIG.RoomsGuests[rooms].values.indexOf(guests) === -1) {
+      return CONFIG.RoomsGuests[rooms].errMsg;
     }
 
     return '';
