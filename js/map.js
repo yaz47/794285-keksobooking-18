@@ -100,7 +100,7 @@
 
   pinContainerElem.addEventListener('keydown', function (evt) {
     var pin = evt.target.closest('.map__pin:not(.map__pin--main)');
-    if (pin && evt.keyCode === window.utils.KEYCODES.ENTER) {
+    if (pin && evt.keyCode === window.utils.KEYCODE.ENTER) {
       initCard(pin);
     }
   });
@@ -113,7 +113,7 @@
   });
 
   mapElem.addEventListener('keydown', function (evt) {
-    if (evt.keyCode === window.utils.KEYCODES.ESC) {
+    if (evt.keyCode === window.utils.KEYCODE.ESC) {
       destroyCard();
     }
   });

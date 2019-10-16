@@ -136,7 +136,7 @@
   });
 
   window.map.pinMainElem.addEventListener('keydown', function (evt) {
-    if (evt.keyCode === window.utils.KEYCODES.ENTER && !isPageActive) {
+    if (evt.keyCode === window.utils.KEYCODE.ENTER && !isPageActive) {
       activatePage();
       updateAddressCoords();
     }
