@@ -35,15 +35,37 @@
   var filterElevatorInput = filterFormElem.querySelector('#filter-elevator');
   var filterConditionerInput = filterFormElem.querySelector('#filter-conditioner');
 
-  var destroyCard = function () {
+  var activePin = null;
+
+  var activatePin = function (elem) {
+    if (activePin) {
+      activePin.classList.remove('map__pin--active');
+    }
+    elem.classList.add('map__pin--active');
+    activePin = elem;
+  };
+
+  var deactivatePin = function () {
+    if (activePin) {
+      activePin.classList.remove('map__pin--active');
+      activePin = null;
+    }
+  };
+
+  var removeCard = function () {
     var card = mapElem.querySelector('.map__card.popup');
     if (card) {
       mapElem.removeChild(card);
     }
   };
 
+  var destroyCard = function () {
+    removeCard();
+    deactivatePin();
+  };
+
   var destroyPins = function () {
-    pinContainerElem.querySelectorAll('.map__pin:not(.map__pin--main)').forEach(function (elem) {
+    Array.from(pinContainerElem.querySelectorAll('.map__pin:not(.map__pin--main)')).forEach(function (elem) {
       pinContainerElem.removeChild(elem);
     });
   };
@@ -53,7 +75,7 @@
     pinMainElem.style.top = START_COORDS.Y + 'px';
   };
 
-  var initCard = function (pin) {
+  var createCard = function (pin) {
     destroyCard();
     var info;
     try {
@@ -62,6 +84,11 @@
       info = {error: err.msg};
     }
     mapElem.insertBefore(window.renderCardFromTemplate(info), filterContainerElem);
+  };
+
+  var initCard = function (pin) {
+    createCard(pin);
+    activatePin(pin);
   };
 
   pinContainerElem.addEventListener('click', function (evt) {
@@ -73,7 +100,7 @@
 
   pinContainerElem.addEventListener('keydown', function (evt) {
     var pin = evt.target.closest('.map__pin:not(.map__pin--main)');
-    if (pin && evt.keyCode === window.utils.KEYCODES.ENTER) {
+    if (pin && evt.keyCode === window.utils.KEYCODE.ENTER) {
       initCard(pin);
     }
   });
@@ -86,7 +113,7 @@
   });
 
   mapElem.addEventListener('keydown', function (evt) {
-    if (evt.keyCode === window.utils.KEYCODES.ESC) {
+    if (evt.keyCode === window.utils.KEYCODE.ESC) {
       destroyCard();
     }
   });
@@ -172,17 +199,28 @@
     pinContainerElem.appendChild(window.renderPins(filterPinData(window.app.pinData)));
   });
 
-  filterContainerElem.addEventListener('input', function (evt) {
+  filterContainerElem.addEventListener('change', function (evt) {
     if (evt.target.matches('select, input')) {
       refreshPins();
     }
   });
 
-  var activateMap = function () {
-    mapElem.classList.remove('map--faded');
-    filterFormElem.querySelectorAll('fieldset, input, select').forEach(function (elem) {
+  var filterFormControls = Array.from(filterFormElem.querySelectorAll('fieldset, input, select'));
+
+  var activateFilterForm = function () {
+    filterFormControls.forEach(function (elem) {
       elem.disabled = false;
     });
+  };
+
+  var deactivateFilterForm = function () {
+    filterFormControls.forEach(function (elem) {
+      elem.disabled = true;
+    });
+  };
+
+  var activateMap = function () {
+    mapElem.classList.remove('map--faded');
   };
 
   var deactivateMap = function () {
@@ -191,9 +229,7 @@
     destroyPins();
     resetMainPin();
     filterFormElem.reset();
-    filterFormElem.querySelectorAll('fieldset, input, select').forEach(function (elem) {
-      elem.disabled = true;
-    });
+    deactivateFilterForm();
   };
 
   window.map = {
@@ -202,6 +238,7 @@
     filterFormElem: filterFormElem,
     pinContainerElem: pinContainerElem,
     activateMap: activateMap,
-    deactivateMap: deactivateMap
+    deactivateMap: deactivateMap,
+    activateFilterForm: activateFilterForm
   };
 })();

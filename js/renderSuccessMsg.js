@@ -9,7 +9,7 @@
     var successElem = successTemplate.cloneNode(true);
 
     var onEscPress = function (evt) {
-      if (evt.keyCode === window.utils.KEYCODES.ESC) {
+      if (evt.keyCode === window.utils.KEYCODE.ESC) {
         window.utils.destroyMsg(successElem);
       }
       document.removeEventListener('keydown', onEscPress);

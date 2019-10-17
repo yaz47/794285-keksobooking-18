@@ -20,6 +20,7 @@
   var onPinsLoad = function (response) {
     window.app.pinData = response;
     window.map.pinContainerElem.appendChild(window.renderPins(window.app.pinData));
+    window.map.activateFilterForm();
   };
 
   var activatePage = function () {
@@ -35,6 +36,11 @@
       deactivatePage();
       window.renderSuccessMsg();
     }, window.utils.onError);
+  });
+
+  window.adForm.adFormResetElem.addEventListener('click', function (evt) {
+    evt.preventDefault();
+    deactivatePage();
   });
 
   var updateAddressCoords = function () {
@@ -130,10 +136,14 @@
   });
 
   window.map.pinMainElem.addEventListener('keydown', function (evt) {
-    if (evt.keyCode === window.utils.KEYCODES.ENTER && !isPageActive) {
+    if (evt.keyCode === window.utils.KEYCODE.ENTER && !isPageActive) {
       activatePage();
       updateAddressCoords();
     }
+  });
+
+  window.addEventListener('beforeunload', function () {
+    deactivatePage();
   });
 
   var initPage = function () {

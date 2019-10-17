@@ -28,15 +28,17 @@
     var result = document.createDocumentFragment();
     var length = data.length < PINS_MAX ? data.length : PINS_MAX;
     for (var i = 0; i < length; i++) {
-      var pin = renderPinFromTemplate(data[i]);
-      var info;
-      try {
-        info = JSON.stringify(data[i]);
-      } catch (err) {
-        info = '' + err.message;
+      if (data[i].offer) {
+        var pin = renderPinFromTemplate(data[i]);
+        var info;
+        try {
+          info = JSON.stringify(data[i]);
+        } catch (err) {
+          info = '' + err.message;
+        }
+        pin.dataset.info = info;
+        result.appendChild(pin);
       }
-      pin.dataset.info = info;
-      result.appendChild(pin);
     }
     return result;
   };

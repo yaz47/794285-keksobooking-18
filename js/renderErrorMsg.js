@@ -11,7 +11,7 @@
     errorElem.querySelector('.error__message').textContent = data;
 
     var onEscPress = function (evt) {
-      if (evt.keyCode === window.utils.KEYCODES.ESC) {
+      if (evt.keyCode === window.utils.KEYCODE.ESC) {
         window.utils.destroyMsg(errorElem);
       }
       document.removeEventListener('keydown', onEscPress);
