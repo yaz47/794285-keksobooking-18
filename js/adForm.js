@@ -78,11 +78,7 @@
     var rooms = selectRoomsElem.value;
     var guests = selectGuestsElem.value;
 
-    if (CONFIG.RoomsGuests[rooms].values.indexOf(guests) === -1) {
-      return CONFIG.RoomsGuests[rooms].errMsg;
-    }
-
-    return '';
+    return CONFIG.RoomsGuests[rooms].values.indexOf(guests) === -1 ? CONFIG.RoomsGuests[rooms].errMsg : '';
   };
 
   var validateForm = function () {
