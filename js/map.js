@@ -8,11 +8,11 @@
   var PRICE = {
     LOW: {
       MIN: 0,
-      MAX: 9999
+      MAX: 10000
     },
     MIDDLE: {
       MIN: 10000,
-      MAX: 49999
+      MAX: 50000
     },
     HIGH: {
       MIN: 50000
@@ -122,11 +122,11 @@
       case 'any':
         return true;
       case 'low':
-        return place.offer.price >= +PRICE.LOW.MIN && place.offer.price <= +PRICE.LOW.MAX;
+        return place.offer.price >= +PRICE.LOW.MIN && place.offer.price < +PRICE.LOW.MAX;
       case 'middle':
         return place.offer.price >= +PRICE.MIDDLE.MIN && place.offer.price <= +PRICE.MIDDLE.MAX;
       case 'high':
-        return place.offer.price >= +PRICE.HIGH.MIN;
+        return place.offer.price > +PRICE.HIGH.MIN;
     }
     return true;
   };
