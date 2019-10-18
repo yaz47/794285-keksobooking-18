@@ -28,12 +28,7 @@
   var filterPriceSelect = filterFormElem.querySelector('#housing-price');
   var filterRoomsSelect = filterFormElem.querySelector('#housing-rooms');
   var filterGuestsSelect = filterFormElem.querySelector('#housing-guests');
-  var filterWifiInput = filterFormElem.querySelector('#filter-wifi');
-  var filterDishwasherInput = filterFormElem.querySelector('#filter-dishwasher');
-  var filterParkingInput = filterFormElem.querySelector('#filter-parking');
-  var filterWasherInput = filterFormElem.querySelector('#filter-washer');
-  var filterElevatorInput = filterFormElem.querySelector('#filter-elevator');
-  var filterConditionerInput = filterFormElem.querySelector('#filter-conditioner');
+  var arrayOfFeatures = Array.from(filterFormElem.querySelectorAll('input[type="checkbox"]'));
 
   var activePin = null;
 
@@ -118,79 +113,42 @@
     }
   });
 
-  var filterByType = function (data) {
-    if (filterTypeSelect.value === 'any') {
-      return data;
-    }
-
-    return data.filter(function (elem) {
-      return elem.offer.type === filterTypeSelect.value;
-    });
+  var filterByType = function (place) {
+    return filterTypeSelect.value === 'any' ? true : place.offer.type === filterTypeSelect.value;
   };
 
-  var filterByPrice = function (data) {
+  var filterByPrice = function (place) {
     switch (filterPriceSelect.value) {
       case 'any':
-        return data;
+        return true;
       case 'low':
-        return data.filter(function (elem) {
-          return elem.offer.price > +PRICE.LOW.MIN && elem.offer.price <= +PRICE.LOW.MAX;
-        });
+        return place.offer.price >= +PRICE.LOW.MIN && place.offer.price <= +PRICE.LOW.MAX;
       case 'middle':
-        return data.filter(function (elem) {
-          return elem.offer.price > +PRICE.MIDDLE.MIN && elem.offer.price <= +PRICE.MIDDLE.MAX;
-        });
+        return place.offer.price >= +PRICE.MIDDLE.MIN && place.offer.price <= +PRICE.MIDDLE.MAX;
       case 'high':
-        return data.filter(function (elem) {
-          return elem.offer.price > +PRICE.MIDDLE.MIN;
-        });
+        return place.offer.price >= +PRICE.HIGH.MIN;
     }
-    return data;
+    return true;
   };
 
-  var filterByRooms = function (data) {
-    if (filterRoomsSelect.value === 'any') {
-      return data;
-    }
-
-    return data.filter(function (elem) {
-      return elem.offer.rooms === +filterRoomsSelect.value;
-    });
+  var filterByRooms = function (place) {
+    return filterRoomsSelect.value === 'any' ? true : place.offer.rooms === +filterRoomsSelect.value;
   };
 
-  var filterByGuests = function (data) {
-    if (filterGuestsSelect.value === 'any') {
-      return data;
-    }
-
-    return data.filter(function (elem) {
-      return elem.offer.guests === +filterGuestsSelect.value;
-    });
+  var filterByGuests = function (place) {
+    return filterGuestsSelect.value === 'any' ? true : place.offer.guests === +filterGuestsSelect.value;
   };
 
-  var filterByFeatures = function (data, checkbox) {
-    if (!checkbox.checked) {
-      return data;
-    }
-
-    return data.filter(function (elem) {
-      return elem.offer.features.indexOf(checkbox.value) !== -1;
+  var filterByFeatures = function (place) {
+    return !arrayOfFeatures.some(function (checkbox) {
+      return checkbox.checked && place.offer.features.indexOf(checkbox.value) === -1;
     });
   };
 
   var filterPinData = function (data) {
-    var result = data;
-    result = filterByType(result);
-    result = filterByPrice(result);
-    result = filterByRooms(result);
-    result = filterByGuests(result);
-    result = filterByFeatures(result, filterWifiInput);
-    result = filterByFeatures(result, filterDishwasherInput);
-    result = filterByFeatures(result, filterParkingInput);
-    result = filterByFeatures(result, filterWasherInput);
-    result = filterByFeatures(result, filterElevatorInput);
-    result = filterByFeatures(result, filterConditionerInput);
-    return result;
+    return data.filter(function (place) {
+      return filterByType(place) && filterByPrice(place) && filterByRooms(place) && filterByGuests(place) && filterByFeatures(place);
+    });
   };
 
   var refreshPins = window.utils.debounce(function () {
