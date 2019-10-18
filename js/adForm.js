@@ -151,11 +151,9 @@
   var photoInput = adFormElem.querySelector('#images');
   var photoContainer = adFormElem.querySelector('.ad-form__photo-container');
   var deactivatePhotos = function () {
-    for (var i = 0; i < photoContainer.children.length; i++) {
-      if (photoContainer.children[i].classList.contains('ad-form__photo')) {
-        photoContainer.removeChild(photoContainer.children[i]);
-      }
-    }
+    Array.prototype.forEach.call(photoContainer.querySelectorAll('.ad-form__photo'), function (elem) {
+      photoContainer.removeChild(elem);
+    });
     photoContainer.insertAdjacentHTML('beforeend', '<div class="ad-form__photo  ad-form__photo--empty"></div>');
   };
   var addPhoto = function (loadEvt) {
