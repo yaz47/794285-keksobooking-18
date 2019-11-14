@@ -8,6 +8,8 @@
   var renderSuccessMsg = function () {
     var successElem = successTemplate.cloneNode(true);
 
+    successElem.tabIndex = 0;
+
     var onEscPress = function (evt) {
       if (evt.keyCode === window.utils.KEYCODE.ESC) {
         window.utils.destroyMsg(successElem);
@@ -22,6 +24,7 @@
     });
 
     window.utils.mainElem.appendChild(successElem);
+    successElem.focus();
   };
 
   window.renderSuccessMsg = renderSuccessMsg;
